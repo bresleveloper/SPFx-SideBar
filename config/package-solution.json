@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "spfx-side-nav-bar-client-side-solution",
+    "id": "7baa0d02-119f-4ff5-b414-7635101d11f8",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "features": [{
+      "title": "asset-deployment-spfx-side-nav-bar-client-side-solution",
+      "description": "asset-deploymentspfx-side-nav-bar-client-side-solution",
+      "id": "D52B0BC1-4DDE-4ABF-9050-EC7385C06278",     
+      "version": "1.0.0.0",
+      "assets": {
+        "elementManifests": [
+          "elements.xml"
+        ],
+        "elementFiles":[
+          "PazSiteSideBarLinks_schema.xml"
+        ]
+      }
+    }]
+  },
+  "paths": {
+    "zippedPackage": "solution/spfx-side-nav-bar.sppkg"
+  }
+}

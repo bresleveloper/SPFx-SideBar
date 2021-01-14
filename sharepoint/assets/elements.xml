@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+
+    <Field ID="{586FB6B9-5907-4E34-B731-B1BFB5093BAC}"
+            Name="PazSideBarLink"
+            DisplayName="PazSideBarLink"
+            Type="URL"
+            Required="TRUE"
+            Group="PAZ SPFx Columns" />
+
+    <ContentType ID="0x0100795C72EFE15C4F9E9C60DB642174A2F1"
+            Name="PazSideBarItem"
+            Group="PAZ SPFx Content Types">
+        <FieldRefs>
+            <FieldRef ID="{586FB6B9-5907-4E34-B731-B1BFB5093BAC}" />
+        </FieldRefs>
+    </ContentType>
+
+    <ListInstance
+            CustomSchema="PazSiteSideBarLinks_schema.xml"
+            FeatureId="00bfea71-de22-43b2-a848-c05709900100"
+            Title="PazSiteSideBarLinks"
+            Description="PazSiteSideBarLinks"
+            TemplateType="100"
+            Url="Lists/PazSiteSideBarLinks">
+    </ListInstance>
+
+</Elements>
