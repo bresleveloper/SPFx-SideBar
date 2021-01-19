@@ -25,7 +25,7 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
 
     this.getList('PazSiteSideBarLinks', items => {
 
-      let itemTemplate = '<li><a href="#HREF#" title="#DESC#">#TITLE#</a></li>'
+      let itemTemplate = `<li><a class="${ styles.navBarA }" href="#HREF#" title="#DESC#">#TITLE#</a></li>`
       let h = `<ul class="${ styles.flexCol }">`
 
       for (let i = 0; i < items.length; i++) {
@@ -37,7 +37,7 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
                     x.PazSideBarLink.Description ? 
                       `title="${x.PazSideBarLink.Description}"` : '')
       }
-      h += '</ul>'
+      h += `</ul>`
 
       this.domElement.innerHTML = `
       <div class="${ styles.spFxSideNavBar }">
