@@ -73,7 +73,7 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('Title', { label:'Title'})
+                PropertyPaneTextField('Title',{label:'Title'})
               ]
             }
           ]
