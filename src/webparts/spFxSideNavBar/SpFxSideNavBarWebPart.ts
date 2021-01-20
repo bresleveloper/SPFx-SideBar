@@ -11,6 +11,7 @@ import * as strings from 'SpFxSideNavBarWebPartStrings';
 
 export interface ISpFxSideNavBarWebPartProps {
   description: string;
+  Title:string;
 }
 
 import {
@@ -45,7 +46,9 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
           <div class="${ styles.row }">
             <div class="${ styles.column }">
               <div class="${ styles.sideBarContent }">
+                <h2 ${this.properties.Title?this.properties.Title}></h2>
                 ${ h }
+                 
               </div>
             </div>
           </div>
@@ -70,9 +73,7 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
+                PropertyPaneTextField('Title', { label:'Title'})
               ]
             }
           ]
