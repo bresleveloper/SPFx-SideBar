@@ -46,7 +46,7 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
           <div class="${ styles.row }">
             <div class="${ styles.column }">
               <div class="${ styles.sideBarContent }">
-                <h2 ${this.properties.Title?this.properties.Title}></h2>
+                <h2>${this.properties.Title ? this.properties.Title: ''}</h2>
                 ${ h }
                  
               </div>
