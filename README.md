@@ -9,14 +9,6 @@ PazLink - link, alt for title attr
 
 deployed automatically via feature `elements.xml`
 
-
-
-
-
-
-
-
-
 ### commands
 once - `gulp trust-dev-cert`
 
