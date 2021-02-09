@@ -2,6 +2,7 @@ import { Version } from '@microsoft/sp-core-library';
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
+  PropertyPaneDropdown,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -10,7 +11,7 @@ import styles from './SpFxSideNavBarWebPart.module.scss';
 import * as strings from 'SpFxSideNavBarWebPartStrings';
 
 export interface ISpFxSideNavBarWebPartProps {
-  description: string;
+  LinksSources: string;
   Title:string;
 }
 
@@ -24,38 +25,45 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
 
   public render(): void {
 
-    this.getList('PazSiteSideBarLinks', items => {
+    if (this.properties.LinksSources && this.properties.LinksSources == "SiteContents") {
+      this.getDocumentsLibraries(libs => {
 
-      let itemTemplate = `<li><a class="${ styles.navBarA }" href="#HREF#" title="#DESC#">#TITLE#</a></li>`
-      let h = `<ul class="${ styles.flexCol }">`
+      })
+    } else {
+      this.getList('PazSiteSideBarLinks', items => {
 
-      for (let i = 0; i < items.length; i++) {
-        const x = items[i];
-        h += itemTemplate
-                .replace('#TITLE#', x.Title)
-                .replace('#HREF#', x.PazSideBarLink.Url)
-                .replace('title="#DESC#"', 
-                    x.PazSideBarLink.Description ? 
-                      `title="${x.PazSideBarLink.Description}"` : '')
-      }
-      h += `</ul>`
+        let itemTemplate = `<li><a class="${ styles.navBarA }" href="#HREF#" title="#DESC#">#TITLE#</a></li>`
+        let h = `<ul class="${ styles.flexCol }">`
 
-      this.domElement.innerHTML = `
-      <div class="${ styles.spFxSideNavBar }">
-        <div class="${ styles.container }">
-          <div class="${ styles.row }">
-            <div class="${ styles.column }">
-              <div class="${ styles.sideBarContent }">
-                <h2>${this.properties.Title ? this.properties.Title: ''}</h2>
-                ${ h }
-                 
-              </div>
+        for (let i = 0; i < items.length; i++) {
+          const x = items[i];
+          h += itemTemplate
+                  .replace('#TITLE#', x.Title)
+                  .replace('#HREF#', x.PazSideBarLink.Url)
+                  .replace('title="#DESC#"', 
+                      x.PazSideBarLink.Description ? 
+                        `title="${x.PazSideBarLink.Description}"` : '')
+        }
+        h += `</ul>`
+        this.setHtml(h)
+      })//end get PazSiteSideBarLinks
+    }
+  }
+
+  public setHtml(html:string){
+    this.domElement.innerHTML = `
+    <div class="${ styles.spFxSideNavBar }">
+      <div class="${ styles.container }">
+        <div class="${ styles.row }">
+          <div class="${ styles.column }">
+            <div class="${ styles.sideBarContent }">
+              <h2>${this.properties.Title ? this.properties.Title: ''}</h2>
+              ${ html }
             </div>
           </div>
         </div>
-      </div>`;
-
-    })
+      </div>
+    </div>`;
   }
 
   protected get dataVersion(): Version {
@@ -73,7 +81,13 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('Title',{label:'Title'})
+                PropertyPaneTextField('Title',{label:'Title'}),
+                PropertyPaneDropdown('LinksSources', {label:'Links Sources', 
+                  options:[
+                    {key:'Manually',text:'Manually'},
+                    {key:'SiteContents',text:'Site Contents'},
+                  ]
+                }),
               ]
             }
           ]
@@ -97,6 +111,37 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
             let res = data && data.value ? data.value : data
             console.log('search results', querystring, res);
             callback(res)
+          });
+      });
+    }
+
+  public getDocumentsLibraries(callback): void {
+
+    console.log('getDocumentsLibraries');
+
+    let url = this.context.pageContext.web.absoluteUrl +
+              "/_api/Web/Lists?$filter=BaseTemplate%20eq%20101&$select=Title,EntityTypeName,ParentWebUrl"; 
+
+    this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
+      .then((response: SPHttpClientResponse) => {
+          response.json().then((data)=> {
+            let res = data && data.value ? data.value : data
+            console.log('getDocumentsLibraries b4 filter', res);
+
+            let filterList = [
+              'Document_x0020_Templates',
+              'No_x0020_Template_x005f_Template',
+              'PersistedManagedNavigationListEA69B38CE5CE4F1199',
+              'RecycleBin',
+              'SiteCollectionDocuments',
+              'SiteAssets',
+              'Style_x0020_Library',
+              'FormServerTemplates',
+            ]
+            let res2 = res.filter(item => filterList.indexOf(item.EntityTypeName) == -1)
+
+            console.log('getDocumentsLibraries after filter', res2);
+            callback(res2)
           });
       });
     }
