@@ -25,10 +25,16 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
 
   public render(): void {
 
+    //https://pazoil.sharepoint.com/sites/Form//_api/Web/Lists?$filter=BaseTemplate%20eq%20101&$select=Title,EntityTypeName,ParentWebUrl
     if (this.properties.LinksSources && this.properties.LinksSources == "SiteContents") {
       this.getDocumentsLibraries(libs => {
-
-      })
+        for (let i = 0; i < libs.length; i++) {
+          const lib = libs[i];
+          let url = lib.ParentWebUrl + '/' + lib.EntityTypeName
+          //title = Title
+          
+        }
+      })//end getDocumentsLibraries
     } else {
       this.getList('PazSiteSideBarLinks', items => {
 
