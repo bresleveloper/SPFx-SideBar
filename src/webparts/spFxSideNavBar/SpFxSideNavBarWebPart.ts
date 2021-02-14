@@ -134,7 +134,8 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
     console.log('getDocumentsLibraries');
 
     let url = this.context.pageContext.web.absoluteUrl +
-      "/_api/Web/Lists?$filter=BaseTemplate%20eq%20101&$select=Title,EntityTypeName,ParentWebUrl";
+      //"/_api/Web/Lists?$filter=BaseTemplate%20eq%20101&$select=Title,EntityTypeName,ParentWebUrl";
+      "/_api/Web/Lists?$select=Title,EntityTypeName,ParentWebUrl";
 
     this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
       .then((response: SPHttpClientResponse) => {
