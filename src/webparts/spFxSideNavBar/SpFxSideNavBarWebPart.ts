@@ -34,11 +34,18 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
         for (let i = 0; i < libs.length; i++) {
           const lib = libs[i];
           let url = lib.ParentWebUrl + '/' + lib.EntityTypeName;
+          if (lib.BaseTemplate == 100){
+            url = lib.ParentWebUrl + '/Lists/' + lib.EntityTypeName;
+          } 
           let title = lib.Title;
           l += libTemplate.replace('#HREF#', url)
             .replace('#DESC#', title)
             .replace('#TITLE#', title)
         }
+
+        //https://pazoil.sharepoint.com/sites/Finance1/_api/Web/Lists?$select=Title,EntityTypeName,ParentWebUrl,BaseTemplate
+        //this.getBLA...(... l+= (some <li>)
+
         l += `</ul>`
         this.setHtml(l)
       })//end getDocumentsLibraries
@@ -152,8 +159,12 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
             // 'SiteAssets',
             'Style_x0020_Library',
             'FormServerTemplates',
+            'OData__x005f_catalogs_x002f_appdata',
+            'OData__x005f_catalogs_x002f_appfiles',
+            'PazSiteSideBarLinksList',
           ]
-          let res2 = res.filter(item => filterList.indexOf(item.EntityTypeName) == -1)
+          let res2 = res.filter(item => 
+              filterList.indexOf(item.EntityTypeName) == -1 && item.BaseTemplate <= 101)
 
           console.log('getDocumentsLibraries after filter', res2);
           callback(res2)
