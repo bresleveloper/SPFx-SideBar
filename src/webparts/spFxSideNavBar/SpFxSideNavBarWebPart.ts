@@ -43,7 +43,7 @@ export default class SpFxSideNavBarWebPart extends BaseClientSideWebPart<ISpFxSi
             .replace('#TITLE#', title)
         }
 
-        //https://pazoil.sharepoint.com/sites/Finance1/_api/Web/Lists?$select=Title,EntityTypeName,ParentWebUrl,BaseTemplate
+        //https://pazoil.sharepoint.com/sites/Finance1/_api/web/webs/?$select=title,ServerRelativeUrl
         //this.getBLA...(... l+= (some <li>)
 
         l += `</ul>`
